@@ -14,6 +14,9 @@ class User(db.Model):
     is_active = db.Column(db.Boolean, default=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    staff_profile = db.relationship("StaffProfile", backref="user", uselist=False)
+    bookings = db.relationship("Booking", backref="user", lazy=True)
+
 
 class StaffProfile(db.Model):
     __tablename__ = "staff_profiles"
@@ -23,6 +26,9 @@ class StaffProfile(db.Model):
     qualification = db.Column(db.String(80), nullable=False)
     experience = db.Column(db.Integer)
     specialization = db.Column(db.String(100))
+
+    treks = db.relationship("Trek", backref="staff", lazy=True)
+
 
 class Trek(db.Model):
     __tablename__ = "treks"
@@ -36,18 +42,20 @@ class Trek(db.Model):
     price = db.Column(db.Integer, nullable=False)
     image_url = db.Column(db.String(255), nullable=False)
     available_slots = db.Column(db.Integer, nullable=False)
-    staff_id = db.Column(db.Integer, db.ForeignKey("staff_profiles.id"))
-    status = db.Column(db.String(20), nullable=False, default="open")
+    staff_id = db.Column(db.Integer, db.ForeignKey("staff_profiles.id"), nullable=False)
+    status = db.Column(db.String(20), nullable=False, default="Open")
     start_date = db.Column(db.Date, nullable=False)
     end_date = db.Column(db.Date, nullable=False)
+
+    bookings = db.relationship("Booking", backref="trek", lazy=True)
 
 
 class Booking(db.Model):
     __tablename__ = "bookings"
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    trek_id = db.Column(db.Integer, db.ForeignKey("treks.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    trek_id = db.Column(db.Integer, db.ForeignKey("treks.id"), nullable=False)
     booking_date = db.Column(db.DateTime, default=datetime.utcnow)
-    status = db.Column(db.String(20), default="booked")
+    status = db.Column(db.String(20), default="Booked")
     payment_status = db.Column(db.String(20), default="Pending")

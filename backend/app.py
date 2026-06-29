@@ -6,6 +6,8 @@ app = Flask(__name__)
 api = Api(app)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///trek.db"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["SECRET_KEY"] = "trailblaze-secret-key"
 
 db.init_app(app)
 
@@ -14,14 +16,6 @@ from models import *
 with app.app_context():
     db.create_all()
 
-# class HelloWorld(Resource):
-#     def get(self):
-#         return {'hello': 'world'}
-#     def post(self):
-#         data = request.get_json()
-#         new
-
-# api.add_resource(HelloWorld, '/')
 
 
 if __name__ == '__main__':
