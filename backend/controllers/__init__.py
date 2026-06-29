@@ -1,7 +1,7 @@
-from controllers.auth import Register
+# from controllers.auth import Register
 
 
 
-def register_api(api):
-    api.add_resource(Register, "/signup")
-# api.add_resource()
+# def register_api(api):
+#     api.add_resource(Register, "/signup")
+# # api.add_resource()
