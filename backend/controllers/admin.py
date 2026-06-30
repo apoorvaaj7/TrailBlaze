@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash
 from datetime import datetime
 
 from database import db
-from models import User, StaffProfile, Trek
+from models import User, StaffProfile, Trek, Booking
 
 
 # CREATE STAFF
@@ -176,3 +176,154 @@ class AllTreks(Resource):
             })
         return {"success": True, "treks": data}, 200
     
+# UPDATE A TREK
+class UpdateTrek(Resource):
+    @jwt_required()
+
+    def patch(self, trek_id):
+        current_user_id = get_jwt_identity()
+
+        admin = User.query.get(current_user_id)
+
+        if not admin:
+            return{"success": False, "message": "User not found."}, 404
+
+        if admin.role != "Admin":
+            return{"success": False, "message": "Access Denied."}, 403
+        
+        trek = Trek.query.get(trek_id)
+
+        if not trek:
+            return {"success": False, "message": "Trek not found."}, 404
+        
+        data = request.get_json()
+
+        trek_name = data.get("trek_name", "").strip()
+        description = data.get("description", "").strip()
+        location = data.get("location", "").strip()
+        difficulty = data.get("difficulty", "").strip()
+        duration = data.get("duration")
+        price = data.get("price")
+        image_url = data.get("image_url", "").strip()
+        available_slots = data.get("available_slots")
+        staff_id = data.get("staff_id")
+        start_date = data.get("start_date")
+        end_date = data.get("end_date")
+
+        if trek_name:
+            trek.trek_name = trek_name
+
+        if description:
+            trek.description = description
+
+        if location:
+            trek.location = location
+        
+        if difficulty:
+            if difficulty not in ["Easy", "Moderate", "Hard"]:
+                return {"success": False, "message": "Invalid difficulty."}, 400
+            trek.difficulty = difficulty
+        
+        if duration is not None:
+            trek.duration = duration
+
+        if price is not None:
+            if price <= 0:
+                return {
+                    "success": False, "message": "Price must be greater than 0."}, 400
+            trek.price = price
+        
+        if image_url:
+            trek.image_url = image_url
+
+        if available_slots is not None:
+            if available_slots <= 0:
+                return {
+                    "success": False, "message": "Available slots must be greater than 0."}, 400
+            trek.available_slots = available_slots
+
+        if staff_id is not None:
+            staff = StaffProfile.query.get(staff_id)
+            if not staff:
+                return {"success": False, "message": "Assigned staff not found."}, 404
+            trek.staff_id = staff_id
+        
+        if start_date:
+            trek.start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
+
+        if end_date:
+            trek.end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
+
+        if trek.end_date < trek.start_date:
+            return {"success": False, "message": "End date cannot be before start date."}, 400
+        
+        db.session.commit()
+        return {"success": True, "message": "Trek updated successfully."}, 200
+    
+# DELETE A TREK
+class DeleteTrek(Resource):
+    @jwt_required()
+
+    def delete(self, trek_id):
+        current_user_id = get_jwt_identity()
+
+        admin = User.query.get(current_user_id)
+
+        if not admin:
+            return{"success": False, "message": "User not found."}, 404
+
+        if admin.role != "Admin":
+            return{"success": False, "message": "Access Denied."}, 403
+        
+        trek = Trek.query.get(trek_id)
+
+        if not trek:
+            return {"success": False, "message": "Trek not found."}, 404
+        
+        if trek.status != "Open":
+            return {"success": False, "message": "Only open treks can be deleted."}, 400
+        
+        if trek.bookings:
+            return {"success": False, "message": "Booked treks can not be deleted."}, 400
+        
+        db.session.delete(trek)
+        db.session.commit()
+
+        return {"success": True, "message": "Trek deleted successfully."}, 200
+    
+# DASHBOARD
+class AdminDashboard(Resource):
+    @jwt_required()
+
+    def get(self):
+        current_user_id = get_jwt_identity()
+
+        admin = User.query.get(current_user_id)
+
+        if not admin:
+            return{"success": False, "message": "User not found."}, 404
+
+        if admin.role != "Admin":
+            return{"success": False, "message": "Access Denied."}, 403
+        
+        total_users = User.query.filter_by(role="Trekker", is_active=True).count()
+        total_staff = User.query.filter_by(role="Staff", is_active=True).count()
+        total_treks = Trek.query.count()
+        total_bookings = Booking.query.count()
+        open_treks = Trek.query.filter_by(status="Open").count()
+        closed_treks = Trek.query.filter_by(status="Closed").count()
+        completed_treks = Trek.query.filter_by(status="Completed").count()
+
+        return {
+            "success": True,
+    
+            "dashboard": {
+                "total_users": total_users,
+                "total_staff": total_staff,
+                "total_treks": total_treks,
+                "total_bookings": total_bookings,
+                "open_treks": open_treks,
+                "closed_treks": closed_treks,
+                "completed_treks": completed_treks
+            }
+        }, 200

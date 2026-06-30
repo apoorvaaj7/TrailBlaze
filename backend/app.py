@@ -21,14 +21,17 @@ with app.app_context():
 
 from controllers.auth import RegisterAPI, LoginAPI
 from controllers.profile import ProfileAPI
-from controllers.admin import CreateStaffAPI, CreateTrek, AllTreks
+from controllers.admin import CreateStaffAPI, CreateTrek, AllTreks, UpdateTrek, DeleteTrek, AdminDashboard
 
 api.add_resource(RegisterAPI, "/register")
 api.add_resource(LoginAPI, "/login")
 api.add_resource(ProfileAPI, "/profile")
-api.add_resource(CreateStaffAPI, "/admin/create_staff")
-api.add_resource(CreateTrek, "/admin/create_trek")
-api.add_resource(AllTreks, "/admin/all_treks")
+api.add_resource(CreateStaffAPI, "/admin/staff")
+api.add_resource(CreateTrek, "/admin/treks")
+api.add_resource(AllTreks, "/admin/treks")
+api.add_resource(UpdateTrek, "/admin/treks/<int:trek_id>")
+api.add_resource(DeleteTrek, "/admin/treks/<int:trek_id>")
+api.add_resource(AdminDashboard, "/admin/dashboard")
 
 
 
