@@ -140,3 +140,39 @@ class CreateTrek(Resource):
         return {"success": True, "message": "Trek created successfully!"}, 201
     
 
+# SHOW ALL TREKS
+class AllTreks(Resource):
+    @jwt_required()
+
+    def get(self):
+        current_user_id = get_jwt_identity()
+
+        admin = User.query.get(current_user_id)
+
+        if not admin:
+            return{"success": False, "message": "User not found."}, 404
+
+        if admin.role != "Admin":
+            return{"success": False, "message": "Access Denied."}, 403
+        
+        treks = Trek.query.all()
+        data = []
+
+        for trek in treks:
+            data.append({
+                "id" : trek.id,
+                "trek_name" : trek.trek_name,
+                "description" : trek.description,
+                "location" : trek.location,
+                "difficulty" : trek.difficulty,
+                "duration" : trek.duration,
+                "price" : trek.price,
+                "image_url" : trek.image_url,
+                "available_slots" : trek.available_slots,
+                "staff_id" : trek.staff_id,
+                "status" : trek.status,
+                "start_date" : str(trek.start_date),
+                "end_date" : str(trek.end_date)
+            })
+        return {"success": True, "treks": data}, 200
+    

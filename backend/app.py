@@ -21,12 +21,14 @@ with app.app_context():
 
 from controllers.auth import RegisterAPI, LoginAPI
 from controllers.profile import ProfileAPI
-from controllers.admin import CreateStaffAPI
+from controllers.admin import CreateStaffAPI, CreateTrek, AllTreks
 
 api.add_resource(RegisterAPI, "/register")
 api.add_resource(LoginAPI, "/login")
 api.add_resource(ProfileAPI, "/profile")
 api.add_resource(CreateStaffAPI, "/admin/create_staff")
+api.add_resource(CreateTrek, "/admin/create_trek")
+api.add_resource(AllTreks, "/admin/all_treks")
 
 
 
