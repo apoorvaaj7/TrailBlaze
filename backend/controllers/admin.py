@@ -94,17 +94,16 @@ class CreateTrek(Resource):
         image_url = data.get("image_url", "").strip()
         available_slots = data.get("available_slots")
         staff_id = data.get("staff_id")
-        status = data.get("status", "").strip()
         start_date = data.get("start_date")
         end_date = data.get("end_date")
 
-        if not all([trek_name, description, location, difficulty, duration, price, image_url, available_slots, staff_id, status, start_date, end_date]):
+        if not all([trek_name, description, location, difficulty, duration, price, image_url, available_slots, staff_id, start_date, end_date]):
             return{"success": False, "message": "Please fill all the required fields"}, 400
         
         staff = StaffProfile.query.get(staff_id)
 
         if not staff:
-            return {"success": False, "message": "Assigned staff not found."}
+            return {"success": False, "message": "Assigned staff not found."}, 404
         
         start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
         end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
@@ -112,6 +111,15 @@ class CreateTrek(Resource):
         if end_date < start_date:
             return {
                 "success": False, "message": "End date cannot be before start date."}, 400
+        
+        if difficulty not in["Easy", "Moderate", "Hard"]:
+            return{"success": False, "message": "Invalid difficulty"}, 400
+        
+        if available_slots <= 0:
+            return {"success": False, "message": "Slots ca'nt be zero."}, 400
+        
+        if price <= 0:
+            return {"success": False, "message": "Price must be greater than 0."}, 400
         
         trek = Trek(
             trek_name = trek_name,
@@ -123,7 +131,6 @@ class CreateTrek(Resource):
             image_url = image_url,
             available_slots = available_slots,
             staff_id = staff_id,
-            status = status,
             start_date = start_date,
             end_date = end_date
         )
@@ -131,3 +138,5 @@ class CreateTrek(Resource):
         db.session.commit()
 
         return {"success": True, "message": "Trek created successfully!"}, 201
+    
+
