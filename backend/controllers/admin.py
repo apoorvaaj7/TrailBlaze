@@ -327,3 +327,31 @@ class AdminDashboard(Resource):
                 "completed_treks": completed_treks
             }
         }, 200
+    
+# BLACKLISTING and ACTIVATING 
+
+class UpdateUserStatus(Resource):
+    @jwt_required()
+    def patch(self, user_id):
+
+        current_user_id = get_jwt_identity()
+        admin = User.query.get(current_user_id)
+
+        if not admin:
+            return {"success": False, "message": "User not found."}, 404
+
+        if admin.role != "Admin":
+            return {"success": False, "message": "Access Denied."}, 403
+
+        user = User.query.get(user_id)
+
+        if not user:
+            return {"success": False, "message": "User not found."}, 404
+
+        data = request.get_json()
+        is_active = data.get("is_active")
+
+        user.is_active = is_active
+        db.session.commit()
+
+        return {"success": True, "message": "User status updated successfully."}, 200

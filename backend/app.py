@@ -21,7 +21,8 @@ with app.app_context():
 
 from controllers.auth import RegisterAPI, LoginAPI
 from controllers.profile import ProfileAPI
-from controllers.admin import CreateStaffAPI, CreateTrek, AllTreks, UpdateTrek, DeleteTrek, AdminDashboard
+from controllers.admin import CreateStaffAPI, CreateTrek, AllTreks, UpdateTrek, DeleteTrek, AdminDashboard, UpdateUserStatus
+from controllers.staff import StaffDashboard, TrekDetails, Trekkers, UpdateSlots, UpdateTrekStatus
 
 api.add_resource(RegisterAPI, "/register")
 api.add_resource(LoginAPI, "/login")
@@ -32,6 +33,14 @@ api.add_resource(AllTreks, "/admin/treks")
 api.add_resource(UpdateTrek, "/admin/treks/<int:trek_id>")
 api.add_resource(DeleteTrek, "/admin/treks/<int:trek_id>")
 api.add_resource(AdminDashboard, "/admin/dashboard")
+api.add_resource(UpdateUserStatus, "/admin/users/<int:user_id>/status")
+
+
+api.add_resource(StaffDashboard, "/staff/dashboard")
+api.add_resource(TrekDetails,"/staff/treks/<int:trek_id>")
+api.add_resource(Trekkers, "/staff/treks/<int:trek_id>/trekkers")
+api.add_resource(UpdateSlots, "/staff/treks/<int:trek_id>/slots")
+api.add_resource(UpdateTrekStatus, "/staff/treks/<int:trek_id>/status")
 
 
 
