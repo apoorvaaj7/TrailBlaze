@@ -18,6 +18,9 @@ class StaffDashboard(Resource):
 
         if staff.role != "Staff":
             return {"success": False, "message": "Access Denied."}, 403
+        
+        if not staff.is_active:
+            return {"success": False, "message": "Your account has been deactivated."}, 403
 
         staff_profile = StaffProfile.query.filter_by(user_id=current_user_id).first()
         assigned_treks = Trek.query.filter_by(staff_id=staff_profile.id).all()
@@ -58,6 +61,9 @@ class TrekDetails(Resource):
 
         if staff.role != "Staff":
             return {"success": False, "message": "Access Denied."}, 403
+        
+        if not staff.is_active:
+            return {"success": False, "message": "Your account has been deactivated."}, 403
 
         staff_profile = StaffProfile.query.filter_by(user_id=current_user_id).first()
         trek = Trek.query.get(trek_id)
@@ -99,6 +105,9 @@ class Trekkers(Resource):
 
         if staff.role != "Staff":
             return {"success": False, "message": "Access Denied."}, 403
+        
+        if not staff.is_active:
+            return {"success": False, "message": "Your account has been deactivated."}, 403
 
         staff_profile = StaffProfile.query.filter_by(user_id=current_user_id).first()
         trek = Trek.query.get(trek_id)
@@ -139,6 +148,9 @@ class UpdateSlots(Resource):
 
         if staff.role != "Staff":
             return {"success": False, "message": "Access Denied."}, 403
+        
+        if not staff.is_active:
+            return {"success": False, "message": "Your account has been deactivated."}, 403
 
         staff_profile = StaffProfile.query.filter_by(user_id=current_user_id).first()
         trek = Trek.query.get(trek_id)
@@ -174,6 +186,9 @@ class UpdateTrekStatus(Resource):
 
         if staff.role != "Staff":
             return {"success": False, "message": "Access Denied."}, 403
+        
+        if not staff.is_active:
+            return {"success": False, "message": "Your account has been deactivated."}, 403
 
         staff_profile = StaffProfile.query.filter_by(user_id=current_user_id).first()
         trek = Trek.query.get(trek_id)
@@ -200,6 +215,12 @@ class UpdateTrekStatus(Resource):
             return {"success": False, "message": "Completed trek cannot be updated."}, 400
 
         trek.status = status
+
+        if status == "Completed":
+            bookings = Booking.query.filter_by(trek_id=trek.id, status="Booked").all()
+            for booking in bookings:
+                booking.status = "Completed"
+                
         db.session.commit()
 
         return {"success": True, "message": "Trek status updated successfully."}, 200

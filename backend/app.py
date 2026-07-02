@@ -23,6 +23,8 @@ from controllers.auth import RegisterAPI, LoginAPI
 from controllers.profile import ProfileAPI
 from controllers.admin import CreateStaffAPI, CreateTrek, AllTreks, UpdateTrek, DeleteTrek, AdminDashboard, UpdateUserStatus
 from controllers.staff import StaffDashboard, TrekDetails, Trekkers, UpdateSlots, UpdateTrekStatus
+from controllers.trekker import ViewTreks, ViewTrekDetails, BookTrek, MyTreks, CancelBooking
+
 
 api.add_resource(RegisterAPI, "/register")
 api.add_resource(LoginAPI, "/login")
@@ -42,6 +44,12 @@ api.add_resource(Trekkers, "/staff/treks/<int:trek_id>/trekkers")
 api.add_resource(UpdateSlots, "/staff/treks/<int:trek_id>/slots")
 api.add_resource(UpdateTrekStatus, "/staff/treks/<int:trek_id>/status")
 
+
+api.add_resource(ViewTreks, "/treks")
+api.add_resource(ViewTrekDetails, "/treks/<int:trek_id>")
+api.add_resource(BookTrek, "/treks/<int:trek_id>")
+api.add_resource(MyTreks, "/my_treks")
+api.add_resource(CancelBooking, "/bookings/<int:booking_id>/cancel")
 
 
 if __name__ == '__main__':
