@@ -2,9 +2,11 @@ from flask import Flask
 from flask_restful import Resource, Api
 from database import db
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 
 app = Flask(__name__)
 api = Api(app)
+CORS(app)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///trek.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False

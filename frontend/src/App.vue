@@ -1,12 +1,4 @@
+
 <template>
-  <h1>TrailBlaze</h1>
-  
+    <router-view/>
 </template>
-
-<script>
-
-</script>
-
-<style>
-
-</style>

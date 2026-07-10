@@ -1,8 +1,52 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+import HomeView from '../views/HomeView.vue'
+import LoginView from '../views/LoginView.vue'
+import RegisterView from '../views/RegisterView.vue'
+import AdminDashboard from '../views/AdminDashboard.vue'
+import CreateTrek from '../views/CreateTrek.vue'
+import ManageTreks from '../views/ManageTreks.vue'
+import ManageStaff from '../views/ManageStaff.vue'
+import ManageTrekkers from '../views/ManageTrekkers.vue'
+
+const routes = [
+  {
+    path: '/',
+    component: HomeView
+  },
+  {
+    path: '/login',
+    component: LoginView
+  },
+  {
+    path: '/register',
+    component: RegisterView
+  },
+  {
+    path: '/admin/dashboard',
+    component: AdminDashboard
+  },
+  {
+    path: '/admin/create-trek',
+    component: CreateTrek
+  },
+  {
+    path: '/admin/manage-treks',
+    component: ManageTreks
+  },
+  {
+    path: '/admin/manage-staff',
+    component: ManageStaff
+  },
+  {
+    path: '/admin/manage-trekkers',
+    component: ManageTrekkers
+  }
+]
+
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [],
+  history: createWebHistory(),
+  routes
 })
 
 export default router
