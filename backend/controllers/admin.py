@@ -9,6 +9,7 @@ from models import User, StaffProfile, Trek, Booking
 
 
 # CREATE STAFF
+print("Inside CreateStaff API")
 class CreateStaffAPI(Resource):
     @jwt_required()
     def post(self):
@@ -62,10 +63,39 @@ class CreateStaffAPI(Resource):
         db.session.add(staff_profile)
         db.session.commit()
 
-        return{
-            "success": True,
-            "message": "Staff created successfully."
-        }, 201
+        return{"success": True, "message": "Staff created successfully."}, 201
+
+
+class AllStaff(Resource):
+    @jwt_required()
+    def get(self):
+
+        current_user_id = get_jwt_identity()
+        admin = User.query.get(current_user_id)
+
+        if not admin:
+            return {"success": False, "message": "User not found."}, 404
+
+        if admin.role != "Admin":
+            return {"success": False, "message": "Access Denied."}, 403
+
+        staffs = StaffProfile.query.all()
+
+        data = []
+
+        for staff in staffs:
+            data.append({
+                "id": staff.id,
+                "user_id": staff.user.id,
+                "full_name": staff.user.full_name,
+                "email": staff.user.email,
+                "phone": staff.user.phone,
+                "qualification": staff.qualification,
+                "experience": staff.experience,
+                "specialization": staff.specialization,
+                "is_active": staff.user.is_active
+            })
+        return { "success": True, "staff": data}, 200
 
 
 # CREATE TREK
@@ -146,7 +176,6 @@ class AllTreks(Resource):
 
     def get(self):
         current_user_id = get_jwt_identity()
-
         admin = User.query.get(current_user_id)
 
         if not admin:
@@ -169,6 +198,7 @@ class AllTreks(Resource):
                 "price" : trek.price,
                 "image_url" : trek.image_url,
                 "available_slots" : trek.available_slots,
+                "staff_name": trek.staff.user.full_name,
                 "staff_id" : trek.staff_id,
                 "status" : trek.status,
                 "start_date" : str(trek.start_date),
@@ -177,6 +207,44 @@ class AllTreks(Resource):
         return {"success": True, "treks": data}, 200
     
 # UPDATE A TREK
+
+class AdminTrekDetails(Resource):
+    @jwt_required()
+    def get(self, trek_id):
+
+        current_user_id = get_jwt_identity()
+        admin = User.query.get(current_user_id)
+
+        if not admin:
+            return {"success": False, "message": "User not found."}, 404
+
+        if admin.role != "Admin":
+            return {"success": False, "message": "Access Denied."}, 403
+
+        trek = Trek.query.get(trek_id)
+        if not trek:
+            return {"success": False, "message": "Trek not found."}, 404
+
+        return {
+            "success": True,
+            "trek": {
+                "id": trek.id,
+                "trek_name": trek.trek_name,
+                "description": trek.description,
+                "location": trek.location,
+                "difficulty": trek.difficulty,
+                "duration": trek.duration,
+                "price": trek.price,
+                "image_url": trek.image_url,
+                "available_slots": trek.available_slots,
+                "staff_id": trek.staff_id,
+                "staff_name": trek.staff.user.full_name,
+                "start_date": str(trek.start_date),
+                "end_date": str(trek.end_date)
+            }
+        }, 200
+
+
 class UpdateTrek(Resource):
     @jwt_required()
 
@@ -328,6 +396,65 @@ class AdminDashboard(Resource):
             }
         }, 200
     
+
+class AllTrekkers(Resource):
+    @jwt_required()
+    def get(self):
+        current_user_id = get_jwt_identity()
+        admin = User.query.get(current_user_id)
+
+        if not admin:
+            return {"success": False, "message": "User not found."}, 404
+
+        if admin.role != "Admin":
+            return {"success": False, "message": "Access Denied."}, 403
+
+        trekkers = User.query.filter_by(role="Trekker").all()
+        data = []
+
+        for trekker in trekkers:
+            total_bookings = Booking.query.filter_by(user_id=trekker.id).count()
+
+            data.append({
+                "id": trekker.id,
+                "full_name": trekker.full_name,
+                "email": trekker.email,
+                "phone": trekker.phone,
+                "address": trekker.address,
+                "bookings": total_bookings,
+                "is_active": trekker.is_active
+            })
+        return { "success": True, "trekkers": data}, 200
+
+    
+class AllBookings(Resource):
+    @jwt_required()
+    def get(self):
+        current_user_id = get_jwt_identity()
+        admin = User.query.get(current_user_id)
+
+        if not admin:
+            return {"success": False, "message": "User not found."}, 404
+
+        if admin.role != "Admin":
+            return { "success": False, "message": "Access Denied."}, 403
+
+        bookings = Booking.query.all()
+
+        data = []
+        for booking in bookings:
+
+            data.append({
+                "booking_id": booking.id,
+                "trekker_name": booking.user.full_name,
+                "trek_name": booking.trek.trek_name,
+                "booking_date": str(booking.booking_date),
+                "booking_status": booking.status,
+                "payment_status": booking.payment_status
+            })
+        return { "success": True, "bookings": data}, 200
+
+
 # BLACKLISTING and ACTIVATING 
 
 class UpdateUserStatus(Resource):

@@ -32,6 +32,11 @@
                   Manage Trekkers
                 </router-link>
               </li>
+              <li>
+                <router-link class="dropdown-item" to="/admin/bookings"><i class="fa-solid fa-calendar"></i>
+                  Booking Records
+                </router-link>
+              </li>
             </ul>
           </li>
           <li class="nav-item ms-3">

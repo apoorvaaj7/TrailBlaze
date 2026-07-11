@@ -188,6 +188,7 @@ class CancelBooking(Resource):
             return {"success": False, "message": "Completed treks cannot be cancelled."}, 400
 
         booking.status = "Cancelled"
+        booking.payment_status = "Refunded"
         booking.trek.available_slots += 1
         db.session.commit()
 

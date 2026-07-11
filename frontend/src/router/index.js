@@ -6,8 +6,11 @@ import RegisterView from '../views/RegisterView.vue'
 import AdminDashboard from '../views/AdminDashboard.vue'
 import CreateTrek from '../views/CreateTrek.vue'
 import ManageTreks from '../views/ManageTreks.vue'
+import EditTrek from '../views/EditTrek.vue'
+import CreateStaff from '../views/CreateStaff.vue'
 import ManageStaff from '../views/ManageStaff.vue'
 import ManageTrekkers from '../views/ManageTrekkers.vue'
+import BookingRecords from '../views/BookingRecords.vue'
 
 const routes = [
   {
@@ -35,12 +38,24 @@ const routes = [
     component: ManageTreks
   },
   {
+    path: "/admin/edit-trek/:id",
+    component: EditTrek
+  },
+  {
+    path: '/admin/create-staff',
+    component: CreateStaff
+  },
+  {
     path: '/admin/manage-staff',
     component: ManageStaff
   },
   {
     path: '/admin/manage-trekkers',
     component: ManageTrekkers
+  },
+  {
+    path: '/admin/bookings',
+    component: BookingRecords
   }
 ]
 

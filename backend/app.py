@@ -23,7 +23,7 @@ with app.app_context():
 
 from controllers.auth import RegisterAPI, LoginAPI
 from controllers.profile import ProfileAPI
-from controllers.admin import CreateStaffAPI, CreateTrek, AllTreks, UpdateTrek, DeleteTrek, AdminDashboard, UpdateUserStatus
+from controllers.admin import CreateStaffAPI, CreateTrek, AllStaff, AllTreks, AdminTrekDetails, UpdateTrek, DeleteTrek, AdminDashboard, AllTrekkers, AllBookings, UpdateUserStatus
 from controllers.staff import StaffDashboard, TrekDetails, Trekkers, UpdateSlots, UpdateTrekStatus
 from controllers.trekker import ViewTreks, ViewTrekDetails, BookTrek, MyTreks, CancelBooking
 
@@ -32,11 +32,15 @@ api.add_resource(RegisterAPI, "/register")
 api.add_resource(LoginAPI, "/login")
 api.add_resource(ProfileAPI, "/profile")
 api.add_resource(CreateStaffAPI, "/admin/staff")
+api.add_resource(AllStaff, "/admin/staff")
 api.add_resource(CreateTrek, "/admin/treks")
 api.add_resource(AllTreks, "/admin/treks")
+api.add_resource(AdminTrekDetails, "/admin/treks/<int:trek_id>")
 api.add_resource(UpdateTrek, "/admin/treks/<int:trek_id>")
 api.add_resource(DeleteTrek, "/admin/treks/<int:trek_id>")
 api.add_resource(AdminDashboard, "/admin/dashboard")
+api.add_resource(AllTrekkers, "/admin/trekkers")
+api.add_resource(AllBookings, "/admin/bookings")
 api.add_resource(UpdateUserStatus, "/admin/users/<int:user_id>/status")
 
 
