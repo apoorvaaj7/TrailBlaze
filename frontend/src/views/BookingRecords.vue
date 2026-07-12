@@ -19,7 +19,7 @@
             </thead>
             <tbody>
                 <tr 
-                    v-for="booking in booking" :key="booking.booking_id">
+                    v-for="booking in bookings" :key="booking.booking_id">
                     <td>{{ booking.booking_id }}</td>
                     <td>{{ booking.trekker_name }}</td>
                     <td>{{ booking.trek_name }}</td>
@@ -30,7 +30,7 @@
                         </span>
                     </td>
                     <td>
-                        <span class="badge" :class="booking.payment_status=='Paid' ? 'bg-primary':'bg-warning text-dark'">
+                        <span class="badge" :class="booking.payment_status=='Paid' ? 'bg-success' : 'bg-warning text-dark'">
                             {{ booking.payment_status }}
                         </span>
                     </td>

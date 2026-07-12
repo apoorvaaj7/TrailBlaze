@@ -112,7 +112,9 @@ class BookTrek(Resource):
         
         booking = Booking(
             user_id=current_user_id,
-            trek_id=trek_id
+            trek_id=trek_id,
+            status="Booked",
+            payment_status="Pending"
         )
         trek.available_slots -= 1
 
@@ -148,7 +150,12 @@ class MyTreks(Resource):
                 "trek_id": booking.trek.id,
                 "trek_name": booking.trek.trek_name,
                 "image_url": booking.trek.image_url,
+                "location": booking.trek.location,
+                "difficulty": booking.trek.difficulty,
+                "duration": booking.trek.duration,
+                "price": booking.trek.price,
                 "booking_status": booking.status,
+                "payment_status": booking.payment_status,
                 "start_date": str(booking.trek.start_date),
                 "end_date": str(booking.trek.end_date)
             })
@@ -178,7 +185,7 @@ class CancelBooking(Resource):
         if not booking:
             return {"success": False, "message": "Booking not found."}, 404
 
-        if booking.user_id != current_user_id:
+        if booking.user_id != int(current_user_id):
             return {"success": False, "message": "You cannot cancel this booking."}, 403
 
         if booking.status != "Booked":
@@ -193,3 +200,36 @@ class CancelBooking(Resource):
         db.session.commit()
 
         return {"success": True, "message": "Booking cancelled successfully."}, 200
+
+
+class PayForTrek(Resource):
+    @jwt_required()
+    def patch(self, booking_id):
+
+        current_user_id = get_jwt_identity()
+        user = User.query.get(current_user_id)
+
+        if not user:
+            return {"success": False, "message": "User not found."}, 404
+
+        if user.role != "Trekker":
+            return {"success": False, "message": "Access Denied."}, 403
+
+        booking = Booking.query.get(booking_id)
+
+        if not booking:
+            return {"success": False, "message": "Booking not found."}, 404
+
+        if booking.user_id != int(current_user_id):
+            return {"success": False, "message": "Access Denied."}, 403
+
+        if booking.status != "Booked":
+            return {"success": False, "message": "Cannot pay for this booking."}, 400
+
+        if booking.payment_status == "Paid":
+            return {"success": False, "message": "Payment already completed."}, 400
+
+        booking.payment_status = "Paid"
+        db.session.commit()
+
+        return {"success": True, "message": "Payment Successful."}, 200

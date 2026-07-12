@@ -18,6 +18,11 @@ import StaffTrekDetails from '../views/StaffTrekDetails.vue'
 import ViewTrekkers from "../views/ViewTrekkers.vue"
 
 
+import TrekkerDashboard from "../views/TrekkerDashboard.vue"
+import TrekDetails from "../views/TrekDetails.vue"
+import MyTreks from "../views/MyTreks.vue"
+
+
 const routes = [
   {
     path: '/',
@@ -75,6 +80,18 @@ const routes = [
     path:"/staff/trek/:id/trekkers",
     component:ViewTrekkers
   },
+  {
+    path: '/dashboard',
+    component:TrekkerDashboard
+  },
+  {
+    path: '/trek/:id',
+    component: TrekDetails
+  },
+  {
+    path: '/my-treks',
+    component: MyTreks
+  }
 ]
 
 const router = createRouter({

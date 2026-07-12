@@ -9,7 +9,6 @@ from models import User, StaffProfile, Trek, Booking
 
 
 # CREATE STAFF
-print("Inside CreateStaff API")
 class CreateStaffAPI(Resource):
     @jwt_required()
     def post(self):
@@ -382,6 +381,20 @@ class AdminDashboard(Resource):
         closed_treks = Trek.query.filter_by(status="Closed").count()
         completed_treks = Trek.query.filter_by(status="Completed").count()
 
+        recent_treks = Trek.query.order_by(Trek.id.desc()).limit(3).all()
+        recent_data = []
+
+        for trek in recent_treks:
+            recent_data.append({
+                "id": trek.id,
+                "trek_name": trek.trek_name,
+                "location": trek.location,
+                "difficulty": trek.difficulty,
+                "price": trek.price,
+                "status": trek.status,
+                "image_url": trek.image_url
+            })
+
         return {
             "success": True,
     
@@ -390,9 +403,7 @@ class AdminDashboard(Resource):
                 "total_staff": total_staff,
                 "total_treks": total_treks,
                 "total_bookings": total_bookings,
-                "open_treks": open_treks,
-                "closed_treks": closed_treks,
-                "completed_treks": completed_treks
+                "recent_treks": recent_data
             }
         }, 200
     

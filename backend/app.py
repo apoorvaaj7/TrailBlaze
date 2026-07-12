@@ -3,6 +3,8 @@ from flask_restful import Resource, Api
 from database import db
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
+from werkzeug.security import generate_password_hash
+from models import User
 
 app = Flask(__name__)
 api = Api(app)
@@ -21,11 +23,29 @@ from models import *
 with app.app_context():
     db.create_all()
 
+    admin = User.query.filter_by(email="admin@trailblaze.com").first()
+
+    if not admin:
+        admin = User(
+            full_name="Admin",
+            email="admin@trailblaze.com",
+            password=generate_password_hash("admin123"),
+            phone="9580222777",
+            address="TrailBlaze HQ",
+            role="Admin",
+            is_active=True
+        )
+        db.session.add(admin)
+        db.session.commit()
+
+        print("Admin created.")
+
+
 from controllers.auth import RegisterAPI, LoginAPI
 from controllers.profile import ProfileAPI
 from controllers.admin import CreateStaffAPI, CreateTrek, AllStaff, AllTreks, AdminTrekDetails, UpdateTrek, DeleteTrek, AdminDashboard, AllTrekkers, AllBookings, UpdateUserStatus
 from controllers.staff import StaffDashboard, TrekDetails, Trekkers, UpdateSlots, UpdateTrekStatus
-from controllers.trekker import ViewTreks, ViewTrekDetails, BookTrek, MyTreks, CancelBooking
+from controllers.trekker import ViewTreks, ViewTrekDetails, BookTrek, MyTreks, CancelBooking, PayForTrek
 
 
 api.add_resource(RegisterAPI, "/register")
@@ -56,6 +76,7 @@ api.add_resource(ViewTrekDetails, "/treks/<int:trek_id>")
 api.add_resource(BookTrek, "/treks/<int:trek_id>")
 api.add_resource(MyTreks, "/my_treks")
 api.add_resource(CancelBooking, "/bookings/<int:booking_id>/cancel")
+api.add_resource(PayForTrek, "/bookings/<int:booking_id>/pay")
 
 
 if __name__ == '__main__':
