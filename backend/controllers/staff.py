@@ -34,6 +34,9 @@ class StaffDashboard(Resource):
             trek_data.append({
                 "id": trek.id,
                 "trek_name": trek.trek_name,
+                "location": trek.location,
+                "difficulty": trek.difficulty,
+                "image_url": trek.image_url,
                 "status": trek.status,
                 "start_date": str(trek.start_date),
                 "end_date": str(trek.end_date)

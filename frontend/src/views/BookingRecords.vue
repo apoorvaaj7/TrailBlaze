@@ -2,7 +2,7 @@
 
     <AdminNavbar />
 
-    <div class="container mt-5 pt-5">
+    <div class="container py-5">
         <h2 class="fw-bold mb-4">
             Booking Records
         </h2>

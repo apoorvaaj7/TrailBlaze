@@ -1,7 +1,7 @@
 <template>
-    <Navbar />
+    <StaffNavbar />
 
-    <div class="container mt-5">
+    <div class="container py-5">
 
         <h2 class="mb-4">
             Available Treks
@@ -18,44 +18,42 @@
 
 <script setup>
 
-import { ref, onMounted } from "vue"
-import axios from "axios"
+    import { ref, onMounted } from "vue"
+    import axios from "axios"
+ 
 
-import Navbar from "../components/Navbar.vue"
-import TrekCard from "../components/TrekCard.vue"
+    const treks = ref([])
 
-const treks = ref([])
+    const loadTreks = async () => {
 
-const loadTreks = async () => {
+        try {
 
-    try {
-
-        const response = await axios.get(
-            "http://127.0.0.1:5000/treks",
-            {
-                headers: {
-                    Authorization:
-                        "Bearer " + localStorage.getItem("token")
+            const response = await axios.get(
+                "http://127.0.0.1:5000/treks",
+                {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("token")
+                    }
                 }
-            }
-        )
+            )
 
-        treks.value = response.data.treks
+            treks.value = response.data.treks
+
+        }
+
+        catch (error) {
+
+            console.log(error)
+
+        }
 
     }
 
-    catch (error) {
+    onMounted(() => {
 
-        console.log(error)
+        loadTreks()
 
-    }
-
-}
-
-onMounted(() => {
-
-    loadTreks()
-
-})
+    })
 
 </script>

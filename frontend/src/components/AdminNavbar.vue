@@ -40,7 +40,9 @@
             </ul>
           </li>
           <li class="nav-item ms-3">
-            <button class="btn btn-light">Logout</button>
+            <button class="btn btn-outline-light ms-3" @click="logout"> <i class="fa-solid fa-arrow-right-from-bracket me-2"></i>
+                Logout
+            </button>
           </li>
         </ul>
       </div>
@@ -48,3 +50,15 @@
 </nav>
 
 </template>
+
+<script setup>
+
+  import { useRouter } from 'vue-router';
+
+  const router = useRouter()
+  const logout = () => {
+    localStorage.clear()
+    router.push("/login")
+  }
+
+</script>

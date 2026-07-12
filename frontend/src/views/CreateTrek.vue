@@ -2,7 +2,7 @@
 
     <AdminNavbar />
 
-    <div class="container mt-5 py-5">
+    <div class="container py-5">
         <h2 class="fw-bold mb-4">
             Create Trek
         </h2>

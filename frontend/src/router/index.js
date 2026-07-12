@@ -12,6 +12,12 @@ import ManageStaff from '../views/ManageStaff.vue'
 import ManageTrekkers from '../views/ManageTrekkers.vue'
 import BookingRecords from '../views/BookingRecords.vue'
 
+
+import StaffDashboard from '../views/StaffDashboard.vue'
+import StaffTrekDetails from '../views/StaffTrekDetails.vue'
+import ViewTrekkers from "../views/ViewTrekkers.vue"
+
+
 const routes = [
   {
     path: '/',
@@ -56,7 +62,19 @@ const routes = [
   {
     path: '/admin/bookings',
     component: BookingRecords
-  }
+  },
+  {
+    path: '/staff/dashboard',
+    component: StaffDashboard
+  },
+  {
+    path: '/staff/trek/:id',
+    component: StaffTrekDetails
+  },
+  {
+    path:"/staff/trek/:id/trekkers",
+    component:ViewTrekkers
+  },
 ]
 
 const router = createRouter({
