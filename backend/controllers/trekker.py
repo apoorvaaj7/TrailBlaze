@@ -2,9 +2,58 @@ from flask import request
 from flask_restful import Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from sqlalchemy import or_
+from werkzeug.security import generate_password_hash
 
 from database import db, cache
 from models import User, Trek, Booking
+
+
+class TrekkerProfile(Resource):
+    @jwt_required()
+    def get(self):
+        current_user = User.query.get(get_jwt_identity())
+
+        if not current_user:
+            return {"success": False, "message": "User not found."}, 404
+
+        return {
+            "success": True,
+            "user":{
+                "full_name": current_user.full_name,
+                "email": current_user.email,
+                "phone": current_user.phone,
+                "address": current_user.address
+            }
+        },200
+    
+
+class UpdateProfile(Resource):
+
+    @jwt_required()
+    def patch(self):
+        user = User.query.get(get_jwt_identity())
+
+        if not user:
+            return {"success":False, "message":"User not found."}, 404
+
+        data = request.get_json()
+
+        user.full_name = data.get("full_name", user.full_name).strip()
+        user.phone = data.get("phone", user.phone).strip()
+        user.address = data.get("address", user.address).strip()
+
+        password = data.get("password","").strip()
+
+        if password:
+            user.password = generate_password_hash(password)
+
+        db.session.commit()
+
+        return {
+            "success":True,
+            "message":"Profile updated successfully."
+        },200
+    
 
 class ViewTreks(Resource):
 

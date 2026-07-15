@@ -68,17 +68,15 @@ with app.app_context():
 
 
 from controllers.auth import RegisterAPI, LoginAPI, PublicTreks
-from controllers.profile import ProfileAPI
 from controllers.admin import CreateStaffAPI, CreateTrek, AllStaff, AllTreks, AdminTrekDetails, UpdateTrek, DeleteTrek, AdminDashboard, AllTrekkers, AllBookings, UpdateUserStatus, AdminSearch
 from controllers.staff import StaffDashboard, TrekDetails, Trekkers, UpdateSlots, UpdateTrekStatus
-from controllers.trekker import ViewTreks, ViewTrekDetails, BookTrek, MyTreks, CancelBooking, PayForTrek, ExportCSV, SearchTreks
+from controllers.trekker import ViewTreks, ViewTrekDetails, BookTrek, MyTreks, CancelBooking, PayForTrek, ExportCSV, SearchTreks, TrekkerProfile, UpdateProfile
 
 
 api.add_resource(RegisterAPI, "/register")
 api.add_resource(LoginAPI, "/login")
 api.add_resource(PublicTreks, "/public-treks")
 
-api.add_resource(ProfileAPI, "/profile")
 api.add_resource(CreateStaffAPI, "/admin/staff")
 api.add_resource(AllStaff, "/admin/staff")
 api.add_resource(CreateTrek, "/admin/treks")
@@ -100,6 +98,8 @@ api.add_resource(UpdateSlots, "/staff/treks/<int:trek_id>/slots")
 api.add_resource(UpdateTrekStatus, "/staff/treks/<int:trek_id>/status")
 
 
+api.add_resource(TrekkerProfile, "/profile")
+api.add_resource(UpdateProfile,"/profile/update")
 api.add_resource(ViewTreks, "/treks")
 api.add_resource(ViewTrekDetails, "/treks/<int:trek_id>")
 api.add_resource(BookTrek, "/treks/<int:trek_id>")
