@@ -49,12 +49,12 @@ from models import *
 with app.app_context():
     db.create_all()
 
-    admin = User.query.filter_by(email="apoorvajaiswal590@gmail.com").first()
+    admin = User.query.filter_by(email="23f2004758@ds.study.iitm.ac.in").first()
 
     if not admin:
         admin = User(
             full_name="Admin",
-            email="apoorvajaiswal590@gmail.com",
+            email="23f2004758@ds.study.iitm.ac.in",
             password=generate_password_hash("admin123"),
             phone="9580222777",
             address="TrailBlaze HQ",

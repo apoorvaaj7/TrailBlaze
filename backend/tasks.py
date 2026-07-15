@@ -72,7 +72,7 @@ def monthly_report():
         """
 
         send_mail(
-            "apoorvajaiswal590@gmail.com",
+            "23f2004758@ds.study.iitm.ac.in",
             "TrailBlaze Monthly Report",
             "",
             html
