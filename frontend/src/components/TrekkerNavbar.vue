@@ -34,6 +34,11 @@
                             My Treks
                         </router-link>
                     </li>
+                    <li class="nav-item">
+                        <router-link to="/profile" class="nav-link">
+                            Profile
+                        </router-link>
+                    </li>
                     <li class="nav-item ms-3">
                         <button class="btn btn-outline-light" @click="logout">
                             Logout

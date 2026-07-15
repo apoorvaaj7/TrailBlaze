@@ -1,6 +1,6 @@
 <template>
 
-    <div class="container vh-100 d-flex justify-content-center align-items-center">
+    <div class="container py-5 d-flex justify-content-center">
         <div class="card shadow p-4" style="width:500px">
             <h2 class="text-center mb-4">
                 TrailBlaze

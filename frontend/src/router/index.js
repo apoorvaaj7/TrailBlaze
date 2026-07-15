@@ -19,6 +19,7 @@ import ViewTrekkers from "../views/ViewTrekkers.vue"
 
 
 import TrekkerDashboard from "../views/TrekkerDashboard.vue"
+import ProfileView from "../views/ProfileView.vue"
 import TrekDetails from "../views/TrekDetails.vue"
 import MyTreks from "../views/MyTreks.vue"
 
@@ -83,6 +84,10 @@ const routes = [
   {
     path: '/dashboard',
     component:TrekkerDashboard
+  },
+  {
+    path: "/profile",
+    component:ProfileView
   },
   {
     path: '/trek/:id',
