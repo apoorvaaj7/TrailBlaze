@@ -127,30 +127,40 @@
         status.value = trek.value.status
     }
     const updateSlots = async () => {
-        const response = await axios.patch(`http://127.0.0.1:5000/staff/treks/${route.params.id}/slots`,
-            {
-                available_slots: available_slots.value
-            },
-            {
-                headers: {
-                    Authorization: "Bearer " + localStorage.getItem("token")
-                }
-            })
-        alert(response.data.message)
-        loadTrek()
+        try {
+            const response = await axios.patch(`http://127.0.0.1:5000/staff/treks/${route.params.id}/slots`,
+                {
+                    available_slots: available_slots.value
+                },
+                {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("token")
+                    }
+                })
+            alert(response.data.message)
+            loadTrek()
+        }
+        catch (error) {
+            alert(error.response.data.message)
+        }
     }
     const updateStatus = async () => {
-        const response = await axios.patch(`http://127.0.0.1:5000/staff/treks/${route.params.id}/status`,
-            {
-                status: status.value
-            },
-            {
-                headers: {
-                    Authorization: "Bearer " + localStorage.getItem("token")
-                }
-            })
-        alert(response.data.message)
-        loadTrek()
+        try {
+            const response = await axios.patch(`http://127.0.0.1:5000/staff/treks/${route.params.id}/status`,
+                {
+                    status: status.value
+                },
+                {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("token")
+                    }
+                })
+            alert(response.data.message)
+            loadTrek()
+        }
+        catch (error) {
+            alert(error.response.data.message)
+        }
     }
     onMounted(() => {
         loadTrek()

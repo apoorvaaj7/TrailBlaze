@@ -69,7 +69,7 @@
         trekkers.value = response.data.trekkers
     }
     const updateStatus = async(user_id,is_active)=>{
-        confirm(`Do you want to ${is_active ? "activate" : "deactivate"} this staff member?`)
+        confirm(`Do you want to ${is_active ? "activate" : "deactivate"} this trekker?`)
 
         const response = await axios.patch(`http://127.0.0.1:5000/admin/users/${user_id}/status`,
             {

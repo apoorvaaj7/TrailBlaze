@@ -34,9 +34,9 @@
                     <td>{{ trek.available_slots }}</td>
                     <td>{{ trek.status }}</td>
                     <td>
-                        <router-link :to="'/admin/edit-trek/' + trek.id" class="btn btn-warning btn-sm me-2">
-                            Edit
-                        </router-link>
+                        <button class="btn btn-success" @click="editTrek(trek)">
+                            Edit Trek
+                        </button>
                         <button class="btn btn-danger btn-sm" @click="deleteTrek(trek.id)">
                             Delete
                         </button>
@@ -69,6 +69,15 @@
             console.log(error)
         }
     }
+
+    const editTrek = (trek) => {
+        if (trek.status !== "Open") {
+            alert("Only open treks can be edited.")
+            return
+        }
+        router.push("/admin/edit-trek/" + trek.id)
+    }
+
     const deleteTrek = async (id) => {
         if (!confirm("Delete this trek?")) return
         try {

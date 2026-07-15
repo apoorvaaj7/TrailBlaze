@@ -14,9 +14,6 @@
                 <h2 class="fw-bold text-center">
                     {{ trek.trek_name }}
                 </h2>
-                <p class="text-center text-muted">
-                    {{ trek.location }} • {{ trek.difficulty }} • {{ trek.duration }} Days
-                </p>
                 <hr>
                 <h5>Description</h5>
                 <p>

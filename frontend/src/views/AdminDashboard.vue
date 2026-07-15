@@ -2,59 +2,8 @@
 
     <AdminNavbar />
 
-    <div class="container py-5">
-        <h2 class="fw-bold mb-4">
-            Dashboard
-        </h2>
-        <div class="row g-4">
-            <div class="col-md-3">
-                <div class="card shadow-sm text-center p-4">
-                    <i class="fa-solid fa-person-hiking fs-1 text-success"></i>
-                    <h5 class="mt-3">
-                        Trekkers
-                    </h5>
-                    <h3>
-                        {{ dashboard.total_users }}
-                    </h3>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card shadow-sm text-center p-4">
-                    <i class="fa-solid fa-user-tie fs-1 text-success"></i>
-                    <h5 class="mt-3">
-                        Staff
-                    </h5>
-                    <h3>
-                        {{ dashboard.total_staff }}
-                    </h3>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card shadow-sm text-center p-4">
-                    <i class="fa-solid fa-mountain fs-1 text-success"></i>
-                    <h5 class="mt-3">
-                        Treks
-                    </h5>
-                    <h3>
-                        {{ dashboard.total_treks }}
-                    </h3>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card shadow-sm text-center p-4">
-                    <i class="fa-regular fa-calendar-check fs-1 text-success"></i>
-                    <h5 class="mt-3">
-                        Bookings
-                    </h5>
-                    <h3>
-                        {{ dashboard.total_bookings }}
-                    </h3>
-                </div>
-            </div>
-        </div>
-
         <div v-if="route.query.query">
-            <h3 class="mb-3">
+            <h3 class="mb-3 container py-5">
                 Search Results
             </h3>
             <h5>Users</h5>
@@ -72,6 +21,57 @@
         </div>
 
         <div v-else>
+            <div class="container py-5">
+                <h2 class="fw-bold mb-4">
+                    Dashboard
+                </h2>
+                <div class="row g-4">
+                    <div class="col-md-3">
+                        <div class="card shadow-sm text-center p-4">
+                            <i class="fa-solid fa-person-hiking fs-1 text-success"></i>
+                            <h5 class="mt-3">
+                                Trekkers
+                            </h5>
+                            <h3>
+                                {{ dashboard.total_users }}
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card shadow-sm text-center p-4">
+                            <i class="fa-solid fa-user-tie fs-1 text-success"></i>
+                            <h5 class="mt-3">
+                                Staff
+                            </h5>
+                            <h3>
+                                {{ dashboard.total_staff }}
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card shadow-sm text-center p-4">
+                            <i class="fa-solid fa-mountain fs-1 text-success"></i>
+                            <h5 class="mt-3">
+                                Treks
+                            </h5>
+                            <h3>
+                                {{ dashboard.total_treks }}
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card shadow-sm text-center p-4">
+                            <i class="fa-regular fa-calendar-check fs-1 text-success"></i>
+                            <h5 class="mt-3">
+                                Bookings
+                            </h5>
+                            <h3>
+                                {{ dashboard.total_bookings }}
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+
             <hr class="my-5">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h3 class="fw-bold">
