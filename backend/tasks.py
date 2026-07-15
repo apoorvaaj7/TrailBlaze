@@ -150,3 +150,45 @@ def export_csv(user_id):
         os.remove(filename)
 
         print("CSV Export Completed")
+
+@celery.task(name="tasks.staff_welcome_email")
+def staff_welcome_email(user_id, password):
+
+    with app.app_context():
+        user = User.query.get(user_id)
+
+        if not user:
+            return
+
+        subject = "Welcome to TrailBlaze"
+
+        body = f"""
+            Hello {user.full_name},
+
+            Congratulations!
+
+            Your Staff account has been created successfully.
+
+            Here are your login credentials:
+
+            ---------------------------------
+
+            Email:
+            {user.email}
+
+            Password:
+            {password}
+
+            ---------------------------------
+
+            Please login to TrailBlaze and manage your assigned treks.
+
+            Happy Guiding!
+
+            - TrailBlaze Team
+            """
+
+        send_mail(user.email, subject, body)
+        print("Staff welcome email sent.")
+
+        

@@ -63,6 +63,9 @@ class CreateStaffAPI(Resource):
         db.session.add(staff_profile)
         db.session.commit()
 
+        from tasks import staff_welcome_email
+        staff_welcome_email.delay(staff_user.id, password)
+
         return{"success": True, "message": "Staff created successfully."}, 201
 
 
@@ -224,6 +227,12 @@ class AdminTrekDetails(Resource):
         trek = Trek.query.get(trek_id)
         if not trek:
             return {"success": False, "message": "Trek not found."}, 404
+        
+        if trek.status != "Open":
+            return {"success": False, "message": "Only open treks can be edited."}, 400
+        
+        if trek.bookings:
+            return {"success": False, "message": "Booked treks can not be deleted."}, 400
 
         return {
             "success": True,
@@ -258,6 +267,12 @@ class UpdateTrek(Resource):
 
         if admin.role != "Admin":
             return{"success": False, "message": "Access Denied."}, 403
+        
+        if trek.status != "Open":
+            return {"success": False, "message": "Only open treks can be edited."}, 400
+        
+        if trek.bookings:
+            return {"success": False, "message": "Booked treks can not be deleted."}, 400
         
         trek = Trek.query.get(trek_id)
 
