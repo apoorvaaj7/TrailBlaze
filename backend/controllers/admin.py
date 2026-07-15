@@ -268,16 +268,15 @@ class UpdateTrek(Resource):
         if admin.role != "Admin":
             return{"success": False, "message": "Access Denied."}, 403
         
+        trek = Trek.query.get(trek_id)
+        if not trek:
+            return {"success": False, "message": "Trek not found."}, 404
+        
         if trek.status != "Open":
             return {"success": False, "message": "Only open treks can be edited."}, 400
         
         if trek.bookings:
             return {"success": False, "message": "Booked treks can not be deleted."}, 400
-        
-        trek = Trek.query.get(trek_id)
-
-        if not trek:
-            return {"success": False, "message": "Trek not found."}, 404
         
         data = request.get_json()
 
