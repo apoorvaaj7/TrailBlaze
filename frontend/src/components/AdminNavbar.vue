@@ -13,6 +13,14 @@
               Dashboard
       </router-link>
       <div class="collapse navbar-collapse" id="navbar">
+        <div class="mx-auto">
+            <input v-model="search" class="form-control" placeholder="Search Users, Staff or Treks..." style="width:320px" 
+              @keyup.enter="searchAdmin">
+        </div>
+        <button class="btn btn-light ms-2"
+            @click="searchAdmin">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
         <ul class="navbar-nav ms-auto align-items-center">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"> Manage </a>
@@ -53,12 +61,24 @@
 
 <script setup>
 
-  import { useRouter } from 'vue-router';
+  import { ref } from "vue"
+  import { useRouter } from "vue-router"
 
   const router = useRouter()
+  const search = ref("")
+
   const logout = () => {
-    localStorage.clear()
-    router.push("/login")
+      localStorage.clear()
+      router.push("/login")
+  }
+
+  const searchAdmin = () => {
+      router.push({
+          path: "/admin/dashboard",
+          query: {
+              query: search.value
+          }
+      })
   }
 
 </script>

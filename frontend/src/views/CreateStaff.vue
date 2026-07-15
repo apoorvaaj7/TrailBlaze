@@ -47,6 +47,7 @@
         </form>
     </div>
 
+<Footer />
 </template>
 
 <script setup>
@@ -55,6 +56,7 @@
     import axios from "axios"
     import { useRouter } from "vue-router"
     import AdminNavbar from "../components/AdminNavbar.vue"
+    import Footer from "../components/Footer.vue"
 
     const router = useRouter()
 

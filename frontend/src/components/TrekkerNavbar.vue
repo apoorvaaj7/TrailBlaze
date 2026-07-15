@@ -15,6 +15,19 @@
                 Dashboard
             </router-link>
             <div class="collapse navbar-collapse" id="navbar">
+                <div class="mx-auto d-flex">
+                    <input v-model="search" class="form-control" placeholder="Search Trek or Location..." style="width:300px;"
+                        @keyup.enter="searchTreks">
+                    <select v-model="difficulty" class="form-select ms-2" placeholder="Filter difficulty" style="width:170px;">
+                        <option>All</option>
+                        <option>Easy</option>
+                        <option>Moderate</option>
+                        <option>Hard</option>
+                    </select>
+                    <button class="btn btn-light ms-2" @click="searchTreks">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <router-link to="/my-treks" class="nav-link">
@@ -35,8 +48,21 @@
 
 <script setup>
 
+    import { ref } from "vue"
     import { useRouter } from "vue-router"
     const router = useRouter()
+    const search = ref("")
+    const difficulty = ref("All")
+
+    const searchTreks = ()=>{
+        router.push({
+            path:"/dashboard",
+            query:{
+                query:search.value,
+                difficulty:difficulty.value
+            }
+        })
+    }
 
     const logout = () =>{
         localStorage.clear()

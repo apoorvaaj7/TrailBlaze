@@ -6,6 +6,13 @@
         <h2 class="fw-bold mb-4">
             My Treks
         </h2>
+        <br>
+        <div class="d-flex justify-content-end mb-3">
+            <button class="btn btn-success" @click="exportCSV">
+                <i class="fa-solid fa-file-csv me-2"></i>
+                Export CSV
+            </button>
+        </div>
         <div class="row">
             <div
                 class="col-lg-4 col-md-6 mb-4"
@@ -72,6 +79,7 @@
         </div>
     </div>
 
+<Footer />
 </template>
 
 <script setup>
@@ -79,6 +87,7 @@
     import { ref,onMounted } from "vue"
     import axios from "axios"
     import TrekkerNavbar from "../components/TrekkerNavbar.vue"
+    import Footer from "../components/Footer.vue"
 
     const treks = ref([])
 
@@ -115,6 +124,16 @@
             })
         alert(response.data.message)
         loadTreks()
+    }
+    const exportCSV = async () => {
+        const response = await axios.post("http://127.0.0.1:5000/export_csv",
+            {},
+            {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("token")
+                }
+            })
+        alert(response.data.message)
     }
     onMounted(()=>{
         loadTreks()

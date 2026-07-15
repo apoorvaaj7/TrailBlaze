@@ -70,6 +70,7 @@
         </div>
     </div>
 
+<Footer />
 </template>
 
 <script setup>
@@ -77,6 +78,7 @@
     import { ref,onMounted } from "vue"
     import axios from "axios"
     import StaffNavbar from "../components/StaffNavbar.vue"
+    import Footer from "../components/Footer.vue"
 
     const dashboard = ref({
         treks:[]

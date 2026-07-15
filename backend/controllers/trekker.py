@@ -1,13 +1,15 @@
 from flask import request
 from flask_restful import Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from sqlalchemy import or_
 
-from database import db
+from database import db, cache
 from models import User, Trek, Booking
 
 class ViewTreks(Resource):
 
     @jwt_required()
+    @cache.cached(timeout=60)
     def get(self):
 
         current_user_id = get_jwt_identity()
@@ -41,6 +43,7 @@ class ViewTreks(Resource):
 class ViewTrekDetails(Resource):
 
     @jwt_required()
+    @cache.cached(timeout=60)
     def get(self, trek_id):
 
         current_user_id = get_jwt_identity()
@@ -233,3 +236,75 @@ class PayForTrek(Resource):
         db.session.commit()
 
         return {"success": True, "message": "Payment Successful."}, 200
+    
+
+class ExportCSV(Resource):
+    @jwt_required()
+    def post(self):
+
+        current_user_id = get_jwt_identity()
+        user = User.query.get(current_user_id)
+
+        if not user:
+            return {"success": False, "message": "User not found."}, 404
+
+        if user.role != "Trekker":
+            return {"success": False, "message": "Access Denied."}, 403
+
+        from tasks import export_csv
+        export_csv.delay(current_user_id)
+
+        return {
+            "success": True,
+            "message": "CSV export started. You will receive it by email shortly."
+        }, 200
+    
+
+class SearchTreks(Resource):
+
+    @jwt_required()
+    def get(self):
+        current_user_id = get_jwt_identity()
+        user = User.query.get(current_user_id)
+
+        if not user:
+            return {"success": False, "message": "User not found."}, 404
+
+        if user.role != "Trekker":
+            return {"success": False, "message": "Access Denied."}, 403
+
+        if not user.is_active:
+            return {"success": False, "message": "Your account has been deactivated."}, 403
+
+        query = request.args.get("query", "").strip()
+        difficulty = request.args.get("difficulty", "").strip()
+
+        treks = Trek.query.filter(Trek.status == "Open")
+        if query:
+            treks = treks.filter(
+                or_(
+                    Trek.trek_name.ilike(f"%{query}%"),
+                    Trek.location.ilike(f"%{query}%")
+                ))
+
+        if difficulty and difficulty != "All":
+            treks = treks.filter(Trek.difficulty == difficulty)
+
+        treks = treks.all()
+        data = []
+
+        for trek in treks:
+            data.append({
+                "id": trek.id,
+                "trek_name": trek.trek_name,
+                "image_url": trek.image_url,
+                "price": trek.price,
+                "duration": trek.duration,
+                "difficulty": trek.difficulty,
+                "location": trek.location,
+                "available_slots": trek.available_slots,
+                "start_date": str(trek.start_date),
+                "end_date": str(trek.end_date)
+            })
+
+        return {"success": True, "treks": data}, 200

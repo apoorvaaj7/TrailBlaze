@@ -37,6 +37,7 @@
         </div>
     </div>
 
+<Footer />
 </template>
 
 <script setup>
@@ -45,6 +46,7 @@
     import axios from "axios"
     import { useRoute } from "vue-router"
     import StaffNavbar from "../components/StaffNavbar.vue"
+    import Footer from "../components/Footer.vue"
 
     const route = useRoute()
     const trekkers = ref([])

@@ -3,8 +3,9 @@ from flask_restful import Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from werkzeug.security import generate_password_hash
 from datetime import datetime
+from sqlalchemy import or_
 
-from database import db
+from database import db, cache
 from models import User, StaffProfile, Trek, Booking
 
 
@@ -361,7 +362,7 @@ class DeleteTrek(Resource):
 # DASHBOARD
 class AdminDashboard(Resource):
     @jwt_required()
-
+    @cache.cached(timeout=60)
     def get(self):
         current_user_id = get_jwt_identity()
 
@@ -493,3 +494,57 @@ class UpdateUserStatus(Resource):
         db.session.commit()
 
         return {"success": True, "message": "User status updated successfully."}, 200
+    
+
+# SEARCH 
+class AdminSearch(Resource):
+
+    @jwt_required()
+    def get(self):
+        current_user_id = get_jwt_identity()
+        admin = User.query.get(current_user_id)
+
+        if not admin:
+            return {"success": False, "message": "User not found."}, 404
+
+        if admin.role != "Admin":
+            return {"success": False, "message": "Access Denied."}, 403
+
+        query = request.args.get("query", "").strip()
+
+        users = User.query.filter(
+            or_(
+                User.full_name.ilike(f"%{query}%"),
+                User.email.ilike(f"%{query}%")
+            )).all()
+
+        treks = Trek.query.filter(
+            or_(
+                Trek.trek_name.ilike(f"%{query}%"),
+                Trek.location.ilike(f"%{query}%")
+            )).all()
+
+        users_data = []
+
+        for user in users:
+            users_data.append({
+                "id": user.id,
+                "full_name": user.full_name,
+                "email": user.email,
+                "role": user.role,
+                "is_active": user.is_active
+            })
+
+        treks_data = []
+
+        for trek in treks:
+            treks_data.append({
+                "id": trek.id,
+                "trek_name": trek.trek_name,
+                "location": trek.location,
+                "difficulty": trek.difficulty,
+                "price": trek.price,
+                "status": trek.status
+            })
+
+        return {"success": True, "users": users_data, "treks": treks_data}, 200
