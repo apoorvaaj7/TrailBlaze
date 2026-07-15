@@ -67,7 +67,7 @@ with app.app_context():
         print("Admin created.")
 
 
-from controllers.auth import RegisterAPI, LoginAPI
+from controllers.auth import RegisterAPI, LoginAPI, PublicTreks
 from controllers.profile import ProfileAPI
 from controllers.admin import CreateStaffAPI, CreateTrek, AllStaff, AllTreks, AdminTrekDetails, UpdateTrek, DeleteTrek, AdminDashboard, AllTrekkers, AllBookings, UpdateUserStatus, AdminSearch
 from controllers.staff import StaffDashboard, TrekDetails, Trekkers, UpdateSlots, UpdateTrekStatus
@@ -76,6 +76,8 @@ from controllers.trekker import ViewTreks, ViewTrekDetails, BookTrek, MyTreks, C
 
 api.add_resource(RegisterAPI, "/register")
 api.add_resource(LoginAPI, "/login")
+api.add_resource(PublicTreks, "/public-treks")
+
 api.add_resource(ProfileAPI, "/profile")
 api.add_resource(CreateStaffAPI, "/admin/staff")
 api.add_resource(AllStaff, "/admin/staff")

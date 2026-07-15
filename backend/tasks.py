@@ -86,6 +86,9 @@ def export_csv(user_id):
     with app.app_context():
 
         user = User.query.get(user_id)
+        if not user:
+            return
+        
         bookings = Booking.query.filter_by(user_id=user_id).all()
 
         filename = f"booking_history_{user_id}.csv"

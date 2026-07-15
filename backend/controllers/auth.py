@@ -1,6 +1,6 @@
 from flask_restful import Resource
 from flask import request
-from models import User
+from models import User, Trek
 from database import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
@@ -81,3 +81,25 @@ class LoginAPI(Resource):
             "user_id": user.id,
             "full_name": user.full_name
         }, 200
+    
+
+class PublicTreks(Resource):
+
+    def get(self):
+        treks = Trek.query.filter_by(status="Open")\
+                    .order_by(Trek.id.desc())\
+                    .limit(3)\
+                    .all()
+
+        data = []
+
+        for trek in treks:
+            data.append({
+                "id": trek.id,
+                "trek_name": trek.trek_name,
+                "image_url": trek.image_url,
+                "location": trek.location,
+                "difficulty": trek.difficulty,
+                "price": trek.price
+            })
+        return {"treks": data}, 200
