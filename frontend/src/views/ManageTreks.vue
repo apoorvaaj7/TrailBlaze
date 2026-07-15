@@ -51,10 +51,12 @@
 <script setup>
 
     import { ref, onMounted } from "vue"
+    import { useRouter } from "vue-router"
     import axios from "axios"
     import AdminNavbar from "../components/AdminNavbar.vue"
     import Footer from "../components/Footer.vue"
 
+    const router = useRouter()
     const treks = ref([])
     const loadTreks = async () => {
         try {
@@ -73,6 +75,10 @@
     const editTrek = (trek) => {
         if (trek.status !== "Open") {
             alert("Only open treks can be edited.")
+            return
+        }
+        if (trek.has_bookings) {
+            alert("Booked treks cannot be edited.")
             return
         }
         router.push("/admin/edit-trek/" + trek.id)

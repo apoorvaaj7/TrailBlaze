@@ -115,8 +115,8 @@
                                     {{ trek.status }}
                                 </span>
                             </p>
-                            <router-link :to="'/admin/edit-trek/' + trek.id" class="btn btn-success mt-auto">
-                                Edit Trek
+                            <router-link :to="'/admin/manage-treks'" class="btn btn-success w-100">
+                                Manage Treks
                             </router-link>
                         </div>
                     </div>

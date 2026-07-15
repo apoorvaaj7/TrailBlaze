@@ -113,6 +113,7 @@
                     Authorization:"Bearer "+localStorage.getItem("token")
                 }
             })
+
         const trek = response.data.trek
 
         trek_name.value = trek.trek_name

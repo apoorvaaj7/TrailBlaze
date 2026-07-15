@@ -5,6 +5,7 @@ import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import AdminDashboard from '../views/AdminDashboard.vue'
 import CreateTrek from '../views/CreateTrek.vue'
+import AllTreks from "../views/AllTreks.vue"
 import ManageTreks from '../views/ManageTreks.vue'
 import EditTrek from '../views/EditTrek.vue'
 import CreateStaff from '../views/CreateStaff.vue'
@@ -44,6 +45,10 @@ const routes = [
   {
     path: '/admin/create-trek',
     component: CreateTrek
+  },
+  {
+    path: "/admin/all-treks",
+    component: AllTreks
   },
   {
     path: '/admin/manage-treks',
