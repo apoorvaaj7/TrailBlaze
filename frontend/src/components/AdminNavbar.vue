@@ -69,7 +69,7 @@
 
   const logout = () => {
       localStorage.clear()
-      router.push("/login")
+      router.push("/")
   }
 
   const searchAdmin = () => {

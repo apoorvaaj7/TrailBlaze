@@ -1,192 +1,616 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
-    <div class="container">
-      <router-link class="navbar-brand fw-bold text-success" to="/">
-        <i class="bi bi-tree-fill me-2"></i>TrailBlaze
-      </router-link>
-      <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbar">
-        <ul class="navbar-nav ms-auto align-items-center">
-          <li class="nav-item">
-            <a class="nav-link" href="#home">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#treks">Popular Treks</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#about">About</a>
-          </li>
-          <li class="nav-item ms-3">
-            <router-link to="/login" class="btn btn-outline-success me-2">
-              Login
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/register" class="btn btn-success">
-              Register
-            </router-link>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
 
-  <section id="home" class="hero">
-    <div class="overlay">
-      <div class="text-center text-white">
-        <h1 class="display-3 fw-bold">
-          Explore Beyond Limits
-        </h1>
-        <p class="lead my-4" style="color: white;">
-          Discover breathtaking trekking adventures across India.
-        </p>
-        <router-link to="/register" class="btn btn-success btn-lg me-3">
-          Get Started
-        </router-link>
-        <router-link to="/login" class="btn btn-outline-light btn-lg">
+  <!-- ================= NAVBAR ================= -->
+  <nav class="tb-navbar">
+
+    <div class="tb-nav-container">
+
+      <!-- Brand -->
+      <router-link to="/" class="tb-brand">
+
+        <span class="brand-mark">
+          <i class="fa-solid fa-compass"></i>
+        </span>
+
+        <span>TrailBlaze</span>
+
+      </router-link>
+
+
+      <!-- Desktop Navigation -->
+      <div class="tb-nav-links">
+
+        <a href="#home" class="tb-nav-link">
+          Home
+        </a>
+
+        <a href="#treks" class="tb-nav-link">
+          Explore Treks
+        </a>
+
+        <a href="#about" class="tb-nav-link">
+          About
+        </a>
+
+        <router-link to="/login" class="tb-login">
           Login
         </router-link>
-      </div>
-    </div>
-  </section>
-  
-  <section id="treks" class="py-5 bg-light">
-    <div class="container">
-      <div class="text-center mb-5">
-        <h2 class="fw-bold">Featured Treks</h2>
-        <p class="text-muted">
-        </p>
-      </div>
-      <div class="row">
-        <div class="col-lg-4 mb-4" v-for="trek in treks" :key="trek.id">
-          <div class="card border-0 shadow h-100">
-            <img :src="trek.image_url" class="card-img-top" style="height:240px;object-fit:cover;">
-            <div class="card-body d-flex flex-column">
-              <h4 class="fw-bold">
-                {{ trek.trek_name }}
-              </h4>
-              <p>
-                <i class="fa-solid fa-location-dot text-success me-2"></i>
-                {{ trek.location }}
-              </p>
-              <router-link to="/login" class="btn btn-success">
-                Login to Book
-              </router-link>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <section id="about" class="py-5">
-    <div class="container">
-      <div class="text-center mb-5">
-        <h2 class="fw-bold">
-          Why Choose TrailBlaze?
-        </h2>
-      </div>
-      <div class="row text-center">
-        <div class="col-md-4">
-          <i class="fa-solid fa-mountain fa-3x text-success mb-3"></i>
-          <h4>Beautiful Treks</h4>
-          <p class="text-muted">
-            Discover breathtaking mountains across India.
-          </p>
-        </div>
-        <div class="col-md-4">
-          <i class="fa-solid fa-shield-heart fa-3x text-success mb-3"></i>
-          <h4>Safe Adventures</h4>
-          <p class="text-muted">
-            Experienced guides and verified trekking routes.
-          </p>
-        </div>
-        <div class="col-md-4">
-          <i class="fa-solid fa-calendar-check fa-3x text-success mb-3"></i>
-          <h4>Easy Booking</h4>
-          <p class="text-muted">
-            Book your next trek within minutes.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
+        <router-link to="/register" class="tb-start-btn">
+          Get Started
+          <i class="fa-solid fa-arrow-right"></i>
+        </router-link>
 
-  <section class="bg-success text-white py-5">
-    <div class="container">
-      <div class="row text-center">
-        <div class="col-md-3">
-          <h1 class="fw-bold">100+</h1>
-          <p>Happy Trekkers</p>
-        </div>
-        <div class="col-md-3">
-          <h1 class="fw-bold">50+</h1>
-          <p>Treks</p>
-        </div>
-        <div class="col-md-3">
-          <h1 class="fw-bold">20+</h1>
-          <p>Experienced Guides</p>
-        </div>
-        <div class="col-md-3">
-          <h1 class="fw-bold">100%</h1>
-          <p>Adventure Guaranteed</p>
-        </div>
       </div>
+
+
+      <!-- Mobile Menu Button -->
+      <button
+        class="tb-mobile-toggle"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#mobileNav"
+      >
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
     </div>
-  </section>
-  <section class="py-5 text-center">
-    <div class="container">
-      <h2 class="fw-bold mb-3">
-        Ready for your next adventure?
-      </h2>
-      <p class="lead text-muted mb-4">
-        Join TrailBlaze today and explore India's most amazing treks.
-      </p>
-      <router-link to="/register" class="btn btn-success btn-lg">
-        Start Exploring
+
+
+    <!-- Mobile Navigation -->
+    <div class="collapse tb-mobile-nav" id="mobileNav">
+
+      <a href="#home" class="tb-mobile-link">
+        Home
+      </a>
+
+      <a href="#treks" class="tb-mobile-link">
+        Explore Treks
+      </a>
+
+      <a href="#about" class="tb-mobile-link">
+        About
+      </a>
+
+      <router-link to="/login" class="tb-mobile-link">
+        Login
       </router-link>
+
+      <router-link to="/register" class="tb-mobile-start">
+        Get Started
+      </router-link>
+
     </div>
+
+  </nav>
+
+
+  <!-- ================= HERO ================= -->
+  <section id="home" class="tb-hero">
+
+    <div class="tb-hero-overlay"></div>
+
+
+    <div class="tb-hero-content">
+
+      <div class="tb-hero-eyebrow">
+
+        <span></span>
+
+        EXPLORE INDIA'S TRAILS
+
+      </div>
+
+
+      <h1>
+        Find your
+        <span>next trail.</span>
+      </h1>
+
+
+      <p>
+        Curated trekking experiences across India's most
+        breathtaking landscapes.
+      </p>
+
+
+      <div class="tb-hero-actions">
+
+        <router-link
+          to="/register"
+          class="tb-primary-btn"
+        >
+          Explore Treks
+
+          <i class="fa-solid fa-arrow-right"></i>
+
+        </router-link>
+
+
+        <a
+          href="#treks"
+          class="tb-secondary-btn"
+        >
+          View featured treks
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <!-- ================= FLOATING VALUE PANEL ================= -->
+    <div class="tb-value-panel">
+
+
+      <div class="tb-value-item">
+
+        <div class="tb-value-icon">
+          <i class="fa-solid fa-mountain"></i>
+        </div>
+
+        <div>
+
+          <h3>
+            Curated trails
+          </h3>
+
+          <p>
+            Handpicked trekking experiences
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="tb-value-divider"></div>
+
+
+      <div class="tb-value-item">
+
+        <div class="tb-value-icon">
+          <i class="fa-solid fa-compass"></i>
+        </div>
+
+        <div>
+
+          <h3>
+            Experienced guides
+          </h3>
+
+          <p>
+            People who know every trail
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="tb-value-divider"></div>
+
+
+      <div class="tb-value-item">
+
+        <div class="tb-value-icon">
+          <i class="fa-solid fa-calendar-check"></i>
+        </div>
+
+        <div>
+
+          <h3>
+            Simple booking
+          </h3>
+
+          <p>
+            Plan your adventure with ease
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
   </section>
 
+
+  <!-- ================= FEATURED TREKS ================= -->
+  <section id="treks" class="tb-treks-section">
+
+    <div class="tb-section-container">
+
+
+      <div class="tb-section-heading">
+
+        <div>
+
+          <span class="tb-section-label">
+            EXPLORE
+          </span>
+
+          <h2>
+            Featured treks
+          </h2>
+
+        </div>
+
+
+        <p>
+          Discover some of the experiences waiting
+          beyond the ordinary.
+        </p>
+
+      </div>
+
+
+      <!-- Trek Cards -->
+      <div
+        v-if="treks.length > 0"
+        class="tb-trek-grid"
+      >
+
+        <div
+          v-for="trek in treks"
+          :key="trek.id"
+          class="tb-trek-card"
+        >
+
+          <!-- Trek Image -->
+          <div class="tb-trek-image-wrapper">
+
+            <img
+              :src="trek.image_url"
+              :alt="trek.trek_name"
+              class="tb-trek-image"
+            />
+
+            <div class="tb-image-overlay"></div>
+
+            <span class="tb-trek-tag">
+              Featured
+            </span>
+
+          </div>
+
+
+          <!-- Trek Information -->
+          <div class="tb-trek-content">
+
+            <div class="tb-trek-location">
+
+              <i class="fa-solid fa-location-dot"></i>
+
+              {{ trek.location }}
+
+            </div>
+
+
+            <h3>
+              {{ trek.trek_name }}
+            </h3>
+
+
+            <p>
+              Discover an unforgettable trekking
+              experience surrounded by breathtaking
+              landscapes.
+            </p>
+
+
+            <router-link
+              to="/login"
+              class="tb-trek-link"
+            >
+
+              View trek
+
+              <i class="fa-solid fa-arrow-right"></i>
+
+            </router-link>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Empty State -->
+      <div
+        v-else
+        class="tb-empty-state"
+      >
+
+        <i class="fa-solid fa-mountain"></i>
+
+        <h3>
+          Treks coming soon
+        </h3>
+
+        <p>
+          We're preparing some incredible trails for you.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= WHY TRAILBLAZE ================= -->
+  <section id="about" class="tb-about-section">
+
+    <div class="tb-section-container">
+
+
+      <div class="tb-about-heading">
+
+        <span class="tb-section-label">
+          WHY TRAILBLAZE
+        </span>
+
+        <h2>
+          Built for the trail.
+        </h2>
+
+        <p>
+          Everything you need to discover, plan and
+          experience your next adventure.
+        </p>
+
+      </div>
+
+
+      <div class="tb-feature-grid">
+
+
+        <!-- Feature 01 -->
+        <div class="tb-feature">
+
+          <span class="tb-feature-number">
+            01
+          </span>
+
+          <div class="tb-feature-icon">
+
+            <i class="fa-solid fa-mountain"></i>
+
+          </div>
+
+          <h3>
+            Remarkable trails
+          </h3>
+
+          <p>
+            Explore carefully selected trekking
+            experiences across India's most beautiful
+            landscapes.
+          </p>
+
+        </div>
+
+
+        <!-- Feature 02 -->
+        <div class="tb-feature">
+
+          <span class="tb-feature-number">
+            02
+          </span>
+
+          <div class="tb-feature-icon">
+
+            <i class="fa-solid fa-shield-heart"></i>
+
+          </div>
+
+          <h3>
+            Trek with confidence
+          </h3>
+
+          <p>
+            Experience organised adventures with
+            experienced staff and clear trek information.
+          </p>
+
+        </div>
+
+
+        <!-- Feature 03 -->
+        <div class="tb-feature">
+
+          <span class="tb-feature-number">
+            03
+          </span>
+
+          <div class="tb-feature-icon">
+
+            <i class="fa-solid fa-calendar-check"></i>
+
+          </div>
+
+          <h3>
+            Simple planning
+          </h3>
+
+          <p>
+            Find a trek, check the details and start
+            planning your next adventure in minutes.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= STATISTICS ================= -->
+  <section class="tb-stats-section">
+
+    <div class="tb-section-container">
+
+
+      <div class="tb-stats-intro">
+
+        <span class="tb-section-label">
+          TRAILBLAZE
+        </span>
+
+        <h2>
+          Made for explorers.
+        </h2>
+
+      </div>
+
+
+      <div class="tb-stats-grid">
+
+
+        <div class="tb-stat">
+
+          <strong>
+            100+
+          </strong>
+
+          <span>
+            Happy Trekkers
+          </span>
+
+        </div>
+
+
+        <div class="tb-stat">
+
+          <strong>
+            50+
+          </strong>
+
+          <span>
+            Trekking Experiences
+          </span>
+
+        </div>
+
+
+        <div class="tb-stat">
+
+          <strong>
+            20+
+          </strong>
+
+          <span>
+            Experienced Guides
+          </span>
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= FINAL CTA ================= -->
+  <section class="tb-cta-section">
+
+    <div class="tb-cta-content">
+
+      <span class="tb-section-label">
+        YOUR NEXT ADVENTURE
+      </span>
+
+
+      <h2>
+        The mountains<br />
+        are waiting.
+      </h2>
+
+
+      <p>
+        Find a trail that feels like yours.
+      </p>
+
+
+      <router-link
+        to="/register"
+        class="tb-primary-btn"
+      >
+
+        Start exploring
+
+        <i class="fa-solid fa-arrow-right"></i>
+
+      </router-link>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= FOOTER ================= -->
   <Footer />
 
 </template>
 
+
 <script setup>
 
-  import "../assets/css/landing.css"
-  import Footer from "../components/Footer.vue"
+import "../assets/css/landing.css"
 
-  import { ref, onMounted } from "vue"
-  import { useRouter } from "vue-router"
-  import axios from "axios"
+import Footer from "../components/Footer.vue"
 
-  const router = useRouter()
-  const treks = ref([])
+import { ref, onMounted } from "vue"
 
-  const goLogin = () => {
-    router.push("/login")
+import axios from "axios"
+
+
+const treks = ref([])
+
+
+const loadTreks = async () => {
+
+  try {
+
+    const response = await axios.get(
+      "http://127.0.0.1:5000/public-treks",
+      {
+        headers: {
+          Authorization:
+            "Bearer " +
+            localStorage.getItem("token")
+        }
+      }
+    )
+
+
+    treks.value =
+      response.data.treks.slice(0, 3)
+
   }
 
-  const loadTreks = async () => {
+  catch (error) {
 
-    try {
-      const response = await axios.get("http://127.0.0.1:5000/public-treks",
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token")
-          }
-        })
-      treks.value = response.data.treks.slice(0, 3)
-    }
-    catch (error) {
-      console.log("Login required to view treks")
-    }
+    console.log(
+      "Unable to load featured treks",
+      error
+    )
+
   }
-  onMounted(() => {
-    loadTreks()
-  })
+
+}
+
+
+onMounted(() => {
+
+  loadTreks()
+
+})
 
 </script>

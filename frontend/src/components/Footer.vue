@@ -1,7 +1,7 @@
 <template>
   <footer class="footer">
     <div class="footer-info">
-      <p>&copy; 2026 TrekenZii</p>
+      <p>&copy; 2026 TrailBlaze</p>
       <p>Made with ❤️ for Adventure Lovers</p>
       <p>Explore • Trek • Discover</p>
     </div>
@@ -11,7 +11,7 @@
 <style scoped>
 
 .footer{
-    background:#d4d4d4;
+    background:#F6F4EF;
     border-top:1px solid #ddd;
     margin-top:20px;
     padding:20px 0;
