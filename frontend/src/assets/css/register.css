@@ -1,0 +1,314 @@
+.register-page{
+    min-height:100vh;
+    height: 100vh;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    background:#F6F4EF;
+    overflow: hidden;
+}
+
+.register-visual{
+    position:relative;
+    min-height:100vh;
+    background:url("../images/test2.png") center/cover no-repeat;
+    color:white;
+}
+
+.visual-overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(135deg,rgba(20,31,24,.9),rgba(38,58,43,.62),rgba(20,31,24,.35));
+}
+
+.visual-content{
+    position:relative;
+    z-index:2;
+    height:100%;
+    padding:34px 8%;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+}
+
+.register-brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:white;
+    text-decoration:none;
+    font-size:23px;
+    font-weight:750;
+    letter-spacing:-.5px;
+}
+
+.brand-icon{
+    width:35px;
+    height:35px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:#A66A3F;
+    font-size:14px;
+}
+
+.visual-text{
+    max-width:500px;
+    margin: auto, 0;
+}
+
+.visual-label{
+    display:block;
+    margin-bottom:18px;
+    color:#E7C19B;
+    font-size:11px;
+    font-weight:750;
+    letter-spacing:2px;
+}
+
+.visual-text h1{
+    margin:0;
+    color:white;
+    font-size:clamp(48px,5vw,72px);
+    line-height:.98;
+    letter-spacing:-3px;
+    font-weight:750;
+}
+
+.visual-text h1 span{
+    color:#E7C19B;
+}
+
+.visual-text p{
+    max-width:480px;
+    margin:27px 0 0;
+    color:rgba(255,255,255,.82);
+    font-size:16px;
+    line-height:1.7;
+}
+
+.visual-bottom{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:rgba(255,255,255,.75);
+    font-size:14px;
+}
+
+.visual-bottom i{
+    color:#E7C19B;
+}
+
+.register-form-area{
+    min-height:100vh;
+    padding:40px 7%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#F6F4EF;
+}
+
+.register-card{
+    width:100%;
+    max-width:480px;
+}
+
+.form-label{
+    display:block;
+    margin-bottom:9px;
+    color:#A66A3F;
+    font-size:11px;
+    font-weight:750;
+    letter-spacing:2px;
+}
+
+.form-header{
+    margin-bottom: 24px;
+}
+
+.form-group{
+    margin-bottom: 13px;
+}
+
+.form-header h2{
+    margin:0;
+    color:#171918;
+    font-size:34px;
+    line-height:1.1;
+    letter-spacing:-1.2px;
+    font-weight:750;
+}
+
+.form-header p{
+    margin:10px 0 0;
+    color:#777973;
+    font-size:14px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:7px;
+    color:#30332F;
+    font-size:13px;
+    font-weight:650;
+}
+
+.input-wrapper{
+    position:relative;
+    display:flex;
+    align-items:center;
+}
+
+.input-wrapper i{
+    position:absolute;
+    left:15px;
+    z-index:2;
+    color:#8A8D86;
+    font-size:13px;
+}
+
+.input-wrapper input,
+.input-wrapper textarea{
+    width:100%;
+    border:1px solid #D9D8D2;
+    border-radius:9px;
+    outline:none;
+    background:white;
+    color:#171918;
+    font-family:inherit;
+    font-size:14px;
+    transition:.2s ease;
+}
+
+.input-wrapper input{
+    height:45px;
+    padding:0 15px 0 42px;
+}
+
+.input-wrapper textarea{
+    min-height:62px;
+    padding:11px 15px 11px 42px;
+    resize:vertical;
+}
+
+.input-wrapper input::placeholder,
+.input-wrapper textarea::placeholder{
+    color:#A1A39D;
+}
+
+.input-wrapper input:focus,
+.input-wrapper textarea:focus{
+    border-color:#A66A3F;
+    box-shadow:0 0 0 3px rgba(166,106,63,.10);
+}
+
+.input-wrapper:focus-within i{
+    color:#A66A3F;
+}
+
+.register-btn{
+    width:100%;
+    height:48px;
+    margin-top:5px;
+    border:none;
+    border-radius:9px;
+    background:#263A2B;
+    color:white;
+    font-size:14px;
+    font-weight:650;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    transition:.2s ease;
+}
+
+.register-btn:hover{
+    background:#1C2D21;
+    transform:translateY(-1px);
+}
+
+.login-prompt{
+    margin-top:18px;
+    padding-top:17px;
+    border-top:1px solid #DEDCD5;
+    display:flex;
+    justify-content:center;
+    gap:5px;
+    color:#777973;
+    font-size:13px;
+}
+
+.login-prompt a{
+    color:#A66A3F;
+    font-weight:700;
+    text-decoration:none;
+}
+
+.login-prompt a:hover{
+    color:#263A2B;
+}
+
+@media(max-width:900px){
+    .register-page{
+        grid-template-columns:1fr;
+    }
+
+    .register-visual{
+        min-height:360px;
+    }
+
+    .visual-content{
+        padding:28px 30px;
+    }
+
+    .visual-text{
+        margin:50px 0 20px;
+    }
+
+    .visual-text h1{
+        font-size:48px;
+    }
+
+    .visual-text p{
+        font-size:14px;
+        margin-top:18px;
+    }
+
+    .visual-bottom{
+        display:none;
+    }
+
+    .register-form-area{
+        min-height:auto;
+        padding:55px 25px 60px;
+    }
+}
+
+@media(max-width:500px){
+    .register-visual{
+        min-height:310px;
+    }
+
+    .register-brand{
+        font-size:20px;
+    }
+
+    .visual-text h1{
+        font-size:42px;
+        letter-spacing:-2px;
+    }
+
+    .visual-text p{
+        display:none;
+    }
+
+    .register-form-area{
+        padding:45px 20px 50px;
+    }
+
+    .form-header h2{
+        font-size:29px;
+    }
+}
